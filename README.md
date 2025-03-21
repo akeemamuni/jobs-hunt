@@ -1,3 +1,3 @@
 # Jobs Hunt
 
-An API with little UI included for recording details about job searches and stages. 
+An API for recording details of job searches and stages like interview.

@@ -8,6 +8,6 @@ const {
 
 
 router.route("/").post(createJob).get(authMiddleware, getAllJobs)
-router.route("/:id").get(authMiddleware,getSingleJob).patch(authMiddleware, updateJob).delete(authMiddleware, deleteJob)
+router.route("/:id").get(authMiddleware, getSingleJob).patch(authMiddleware, updateJob).delete(authMiddleware, deleteJob)
 
 module.exports = router

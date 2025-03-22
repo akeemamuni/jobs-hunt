@@ -11,7 +11,7 @@ const customError = (message, status) => {
 
 class BadReqError extends Error {
     constructor() {
-        super("Please input a valid username and password..")
+        super("One or more fields wrong, please input valid details..")
         this.status = StatusCodes.BAD_REQUEST
     }
 }

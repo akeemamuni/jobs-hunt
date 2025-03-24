@@ -18,7 +18,21 @@ class BadReqError extends Error {
 
 class UnauthError extends Error {
     constructor() {
-        super("Invalid authorization, please register/login..")
+        super("Invalid credentials, please input valid email and password..")
+        this.status = StatusCodes.UNAUTHORIZED
+    }
+}
+
+class NotFoundError extends Error {
+    constructor() {
+        super("Data not found..")
+        this.status = StatusCodes.NOT_FOUND
+    }
+}
+
+class InvalidAuthError extends Error {
+    constructor() {
+        super("Invalid token/authorization..")
         this.status = StatusCodes.UNAUTHORIZED
     }
 }
@@ -28,5 +42,7 @@ module.exports = {
     errorHandler,
     customError,
     BadReqError,
-    UnauthError
+    UnauthError,
+    NotFoundError,
+    InvalidAuthError
 }

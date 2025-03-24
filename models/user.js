@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
+// Mongoose user schema
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -25,16 +26,24 @@ const UserSchema = new mongoose.Schema({
     },
 })
 
+// Mongoose middleware for hashing password
 UserSchema.pre('save', async function () {
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
 })
 
+// Mongoose middleware for generating JWT
 UserSchema.methods.createToken = function () {
-    const { _id: userId, email, name } = this
+    const { _id: userId, email } = this
     return jwt.sign(
-        {userId, email, name}, process.env.SECRET, {expiresIn: process.env.EXPIRE}
+        {userId, email}, process.env.SECRET, {expiresIn: process.env.EXPIRE}
     )
 }
+
+// Compare hashed password
+UserSchema.methods.verifyPassword = async function (passwd) {
+    return await bcrypt.compare(passwd, this.password)
+}
+
 
 module.exports = mongoose.model("User", UserSchema)

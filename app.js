@@ -4,6 +4,7 @@ const express = require("express")
 const connectDB = require("./databases/mongo")
 const authRouter = require("./routers/authRoute")
 const jobsRouter = require("./routers/jobsRoute")
+const authMiddleware = require("./middlewares/auth")
 const { notFound, errorHandler } = require("./middlewares/error")
 
 const app = express()
@@ -15,7 +16,7 @@ const port = process.env.PORT || 8005
 // app.use(express.static("./public"))
 app.use(express.json())
 app.use("/api/v1/auth", authRouter)
-app.use("/api/v1/jobs", jobsRouter)
+app.use("/api/v1/jobs", authMiddleware, jobsRouter)
 app.use(notFound)
 app.use(errorHandler)
 

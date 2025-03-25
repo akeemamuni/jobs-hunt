@@ -1,6 +1,5 @@
-const { StatusCodes } = require('http-status-codes')
+const { StatusCodes: sc } = require('http-status-codes')
 
-const errorHandler = (err, req, res, next) => res.status(err.status).json(err.message)
 const notFound = (req, res) => res.status(404).send("Page not found...")
 
 const customError = (message, status) => {
@@ -9,32 +8,60 @@ const customError = (message, status) => {
     return error
 }
 
+// Custom error classes
 class BadReqError extends Error {
     constructor() {
         super("One or more fields wrong, please input valid details..")
-        this.status = StatusCodes.BAD_REQUEST
+        this.status = sc.BAD_REQUEST
     }
 }
 
 class UnauthError extends Error {
     constructor() {
         super("Invalid credentials, please input valid email and password..")
-        this.status = StatusCodes.UNAUTHORIZED
-    }
-}
-
-class NotFoundError extends Error {
-    constructor() {
-        super("Data not found..")
-        this.status = StatusCodes.NOT_FOUND
+        this.status = sc.UNAUTHORIZED
     }
 }
 
 class InvalidAuthError extends Error {
     constructor() {
         super("Invalid token/authorization..")
-        this.status = StatusCodes.UNAUTHORIZED
+        this.status = sc.UNAUTHORIZED
     }
+}
+
+class NotFoundError extends Error {
+    constructor(message) {
+        super(message)
+        this.status = sc.NOT_FOUND
+    }
+}
+
+// Error handler function
+const errorHandler = (err, req, res, next) => {
+    // console.log(err)
+
+    let customErr = {
+        message: err.message || "There was an error, please try again later..",
+        status: err.status || sc.INTERNAL_SERVER_ERROR
+    }
+    if (err.name === "CastError") {
+        // console.log(Object.values(err.errors))
+        customErr.message = `No item found with id: ${err.value}`
+        customErr.status = sc.NOT_FOUND
+    }
+    if (err.code && err.code === 11000) {
+        // console.log(Object.values(err.errors))
+        customErr.message = `This ${Object.keys(err.keyValue)} has been used..`
+        customErr.status = sc.BAD_REQUEST
+    }
+    if (err.name === "ValidationError") {
+        // console.log(Object.values(err.errors))
+        customErr.message = Object.values(err.errors).map(item => item.message).join(' & ')
+        customErr.status = sc.BAD_REQUEST
+    }
+
+    res.status(customErr.status).json(customErr.message)
 }
 
 module.exports = {

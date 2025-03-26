@@ -5,7 +5,7 @@ const connectDB = require("./databases/mongo")
 const authRouter = require("./routers/authRoute")
 const jobsRouter = require("./routers/jobsRoute")
 const authMiddleware = require("./middlewares/auth")
-const { notFound, errorHandler } = require("./middlewares/error")
+const { notFound, errorHandler } = require("./errors/error")
 
 const app = express()
 

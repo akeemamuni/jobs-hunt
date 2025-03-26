@@ -1,6 +1,6 @@
 const JobSchema = require("../models/jobs")
 const { StatusCodes: sc } = require("http-status-codes")
-const { BadReqError, NotFoundError } = require("../middlewares/error")
+const { BadReqError, NotFoundError } = require("../errors/error")
 
 const createJob = async (req, res) => {
     const { company, position } = req.body

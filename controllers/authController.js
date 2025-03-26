@@ -1,5 +1,5 @@
 const { StatusCodes: sc } = require("http-status-codes")
-const { UnauthError } = require("../middlewares/error")
+const { UnauthError } = require("../errors/error")
 const User = require("../models/user")
 
 // Register new user

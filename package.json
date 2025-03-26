@@ -1,7 +1,7 @@
 {
   "name": "jobs-hunt",
   "version": "1.0.0",
-  "description": "An API with little UI included for recording details about job searches and stages.",
+  "description": "An API for recording details about job searches and stages.",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
@@ -29,5 +29,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }

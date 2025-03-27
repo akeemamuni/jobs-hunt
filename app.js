@@ -10,13 +10,16 @@ const { notFound, errorHandler } = require("./errors/error")
 
 // App/Port
 const app = express()
-const port = process.env.PORT || 8005
+const port = process.env.PORT || 8000
 
-// Security/Middleware/Route
+// Security/Middleware/Route/Docs
 const cors = require("cors")
 const xss = require("xss-clean")
 const helmet = require("helmet")
 const { rateLimit } = require("express-rate-limit")
+
+const swagger = require("swagger-ui-express")
+const YAML = require("yamljs")
 
 const expLimiter = rateLimit({
     limit: 100,
@@ -31,7 +34,10 @@ app.use(helmet())
 app.use(cors())
 app.use(xss())
 
-app.get("/", (req, res) => res.send("Job Hunting 101"))
+const swaggerDocs = YAML.load("./docs.yaml") 
+
+app.get("/", (req, res) => res.send("<h1>Job Hunting 101</h1><a href='/docs'>Documentation</a>"))
+app.use("/docs", swagger.serve, swagger.setup(swaggerDocs))
 app.use("/api/v1/jobs", authMiddleware, jobsRouter)
 app.use("/api/v1/auth", authRouter)
 

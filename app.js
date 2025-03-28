@@ -18,7 +18,7 @@ const { rateLimit } = require("express-rate-limit")
 
 const swaggerDocs = YAML.load("./docs.yaml") 
 const expLimiter = rateLimit({
-    limit: 10,
+    limit: 100,
     windowMs: 15 * 60 * 1000,
     standardHeaders: true,
     legacyHeaders: false

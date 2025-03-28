@@ -1,3 +1,4 @@
+const getDateTime = require("../utils/time")
 const { StatusCodes: sc } = require('http-status-codes')
 
 const notFound = (req, res) => res.status(404).send("Page not found...")
@@ -39,7 +40,8 @@ class NotFoundError extends Error {
 
 // Error handler function
 const errorHandler = (err, req, res, next) => {
-    // console.log(err)
+    const currTime = getDateTime()
+    console.log(currTime, err)
 
     let customErr = {
         message: err.message || "There was an error, please try again later..",

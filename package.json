@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,8 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^10.1.4",
     "nodemon": "^3.1.9"
   },
   "engines": {
